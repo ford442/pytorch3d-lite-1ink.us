@@ -1779,15 +1779,10 @@ def _handle_input(
             msg = "Expected y and z to be None (in %s)" % name
             raise ValueError(msg)
         return x.to(device=device_, dtype=dtype)
-
     if allow_singleton and y is None and z is None:
         y = x
         z = x
-
-    # Convert all to 1D tensors
     xyz = [_handle_coord(c, dtype, device_) for c in [x, y, z]]
-
-    # Broadcast and concatenate
     sizes = [c.shape[0] for c in xyz]
     N = max(sizes)
     for c in xyz:
